@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>alfred_asana_tasks</string>
+	<key>connections</key>
+	<dict>
+		<key>20B97B36-D087-48E2-BA02-6D4B339DECC6</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>7B930F56-F186-40E6-9D14-B13028E4CABF</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>868BB137-00B4-46DB-AC31-67441FBA4C06</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>20B97B36-D087-48E2-BA02-6D4B339DECC6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>wouter</string>
+	<key>description</key>
+	<string>Asana workflow</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Asana Tasks</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>keyword</key>
+				<string>a</string>
+				<key>runningsubtext</key>
+				<string>Crunching tasks...</string>
+				<key>script</key>
+				<string>/usr/bin/ruby ./asana.rb filter {query}</string>
+				<key>subtext</key>
+				<string>Search for stuff in Asana</string>
+				<key>title</key>
+				<string>Asana Search</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>868BB137-00B4-46DB-AC31-67441FBA4C06</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>126</integer>
+				<key>script</key>
+				<string>/usr/bin/ruby ./asana.rb action {query}</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>20B97B36-D087-48E2-BA02-6D4B339DECC6</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>by Asana Tasks</string>
+				<key>title</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>7B930F56-F186-40E6-9D14-B13028E4CABF</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>20B97B36-D087-48E2-BA02-6D4B339DECC6</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+		<key>7B930F56-F186-40E6-9D14-B13028E4CABF</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+		<key>868BB137-00B4-46DB-AC31-67441FBA4C06</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>http://www.springest.com</string>
+</dict>
+</plist>

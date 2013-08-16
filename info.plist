@@ -6,6 +6,17 @@
 	<string>alfred_asana_tasks</string>
 	<key>connections</key>
 	<dict>
+		<key>0B828E2B-3022-4FBC-9818-85B81C590844</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>B8F3EC9F-83D9-47B1-9AE4-E26C241293E3</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>20B97B36-D087-48E2-BA02-6D4B339DECC6</key>
 		<array>
 			<dict>
@@ -22,6 +33,17 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>20B97B36-D087-48E2-BA02-6D4B339DECC6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>B8F3EC9F-83D9-47B1-9AE4-E26C241293E3</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>9B6B1185-2132-4EF4-946B-2AC023B38A0F</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -110,11 +132,79 @@
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>asanaconfig</string>
+				<key>subtext</key>
+				<string>Configure Asana Tasks with your API key</string>
+				<key>text</key>
+				<string>Set your Asana API key</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>0B828E2B-3022-4FBC-9818-85B81C590844</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>echo 'api_key: {query}' &gt; ~/.asanaconfig.yml</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>B8F3EC9F-83D9-47B1-9AE4-E26C241293E3</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>You can now start using Asana Tasks</string>
+				<key>title</key>
+				<string>Asana Tasks Workflow configured!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>9B6B1185-2132-4EF4-946B-2AC023B38A0F</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>0B828E2B-3022-4FBC-9818-85B81C590844</key>
+		<dict>
+			<key>ypos</key>
+			<real>130</real>
+		</dict>
 		<key>20B97B36-D087-48E2-BA02-6D4B339DECC6</key>
 		<dict>
 			<key>ypos</key>
@@ -129,6 +219,16 @@
 		<dict>
 			<key>ypos</key>
 			<real>10</real>
+		</dict>
+		<key>9B6B1185-2132-4EF4-946B-2AC023B38A0F</key>
+		<dict>
+			<key>ypos</key>
+			<real>130</real>
+		</dict>
+		<key>B8F3EC9F-83D9-47B1-9AE4-E26C241293E3</key>
+		<dict>
+			<key>ypos</key>
+			<real>130</real>
 		</dict>
 	</dict>
 	<key>webaddress</key>

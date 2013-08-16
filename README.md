@@ -15,7 +15,7 @@ Asana Tasks - Rapid Alfred workflow for Asana
 
 ## Feature list
 
-- Search for projects and open them.
+- Search for projects and open them in your FlowApp or browser.
 - Search for tasks in projects.
 - Create tasks in projects.
 - Complete tasks in projects.

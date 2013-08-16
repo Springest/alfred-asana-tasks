@@ -74,103 +74,7 @@ module Asana
 
           return unless project = find_project(id)
 
-          fork do
-            req = Request.new "/projects/#{id}/tasks"
-            tasks = req.get
-            cache tasks['data'], "project_#{id}_tasks" if tasks['data']
-          end
-
-          @feedback.add_item({
-            :uid          => "#{Alfred.bundle_id} open",
-            :title        => "Open #{project['name']} in Asana.",
-            :subtitle     => "In your Asana fluid app or Browser.",
-            :arg          => "open project #{project['id']}",
-            :valid        => "yes",
-            :autocomplete => "open project #{project['id']}",
-            :icon         => {:type => "default", :name => "browser.png"}
-          })
-
-          @feedback.add_item({
-            :uid          => "#{Alfred.bundle_id} create",
-            :title        => "Create task in #{project['name']}",
-            :subtitle     => "with name #{term}",
-            :arg          => "create #{project['id']} #{project['workspace']['id']} #{term}",
-            :valid        => "yes",
-            :autocomplete => "create #{project['id']} #{term}",
-            :icon         => {:type => "default", :name => "list.png"}
-          })
-
-          results = if term
-            search "project_#{id}_tasks", :name => term
-          else
-            cached "project_#{id}_tasks".slice(15) rescue []
-          end
-
-          results.each do |task|
-            @feedback.add_item({
-              :uid          => "#{Alfred.bundle_id} open",
-              :title        => "Open #{task['name']} in Asana.",
-              :subtitle     => "In your Asana fluid app or Browser.",
-              :arg          => "open task #{task['id']}",
-              :valid        => "yes",
-              :autocomplete => "open task #{task['id']}",
-              :icon         => {:type => "default", :name => "browser.png"}
-            })
-
-            @feedback.add_item({
-              :uid          => "#{Alfred.bundle_id} complete",
-              :title        => "Complete task: #{task['name']}",
-              :subtitle     => "complete #{task['id']}",
-              :arg          => "complete #{task['id']}",
-              :valid        => "yes",
-              :autocomplete => "complete task #{task['id']}",
-              :icon         => {:type => "default", :name => "complete.png"}
-            })
-          end
-        end
-
-        def find_project(id)
-          fork do
-            req = Request.new "/projects/#{id}"
-            project = req.get
-            cache project['data'], "project_#{id}" if project['data']
-          end
-
-          data = cached "project_#{id}"
-
-          # $stderr.puts data
-
-          return data if data
-
-          nil
-        end
-
-        def find_task(id)
-          fork do
-            req = Request.new "/tasks/#{id}"
-            task = req.get
-            cache task['data'], "task_#{id}" if task['data']
-          end
-
-          data = cached "task_#{id}"
-
-          # $stderr.puts data
-
-          return data if data
-
-          nil
-        end
-
-        def project_search(term)
-          fork do
-            req = Request.new "/projects"
-            projects = req.get
-            cache projects['data'], :projects if projects['data']
-          end
-
-          results = search :projects, :name => term
-
-          results.each do |project|
+          async_get "projects/#{id}/tasks" do
             @feedback.add_item({
               :uid          => "#{Alfred.bundle_id} open",
               :title        => "Open #{project['name']} in Asana.",
@@ -182,15 +86,116 @@ module Asana
             })
 
             @feedback.add_item({
-              :uid          => "#{Alfred.bundle_id} list",
-              :title        => "Find tasks in #{project['name']}",
-              :subtitle     => "project #{term}",
-              :arg          => "project #{project['id']}",
-              :valid        => "no",
-              :autocomplete => "list project #{project['id']}",
+              :uid          => "#{Alfred.bundle_id} create",
+              :title        => "Create task in #{project['name']}",
+              :subtitle     => "with name #{term}",
+              :arg          => "create #{project['id']} #{project['workspace']['id']} #{term}",
+              :valid        => "yes",
+              :autocomplete => "create #{project['id']} #{term}",
               :icon         => {:type => "default", :name => "list.png"}
             })
+
+            results = if term
+              search "projects/#{id}/tasks", :name => term
+            else
+              cached "projects/#{id}/tasks".slice(15) rescue []
+            end
+
+            results.each do |task|
+              @feedback.add_item({
+                :uid          => "#{Alfred.bundle_id} open",
+                :title        => "Open #{task['name']} in Asana.",
+                :subtitle     => "In your Asana fluid app or Browser.",
+                :arg          => "open task #{task['id']}",
+                :valid        => "yes",
+                :autocomplete => "open task #{task['id']}",
+                :icon         => {:type => "default", :name => "browser.png"}
+              })
+
+              @feedback.add_item({
+                :uid          => "#{Alfred.bundle_id} complete",
+                :title        => "Complete task: #{task['name']}",
+                :subtitle     => "complete #{task['id']}",
+                :arg          => "complete #{task['id']}",
+                :valid        => "yes",
+                :autocomplete => "complete task #{task['id']}",
+                :icon         => {:type => "default", :name => "complete.png"}
+              })
+            end
           end
+        end
+
+        def find_project(id)
+          # $stderr.puts "Find project"
+          async_get "projects/#{id}" do
+            data = cached "projects/#{id}"
+            # $stderr.puts data
+
+            return data if data
+
+            nil
+          end
+        end
+
+        def find_task(id)
+          # $stderr.puts "Find task"
+          async_get "tasks/#{id}" do
+            data = cached "tasks/#{id}"
+            # $stderr.puts data
+
+            return data if data
+
+            nil
+          end
+        end
+
+        def project_search(term)
+          async_get 'projects' do
+            results = search :projects, :name => term
+
+            results.each do |project|
+              @feedback.add_item({
+                :uid          => "#{Alfred.bundle_id} open",
+                :title        => "Open #{project['name']} in Asana.",
+                :subtitle     => "In your Asana fluid app or Browser.",
+                :arg          => "open project #{project['id']}",
+                :valid        => "yes",
+                :autocomplete => "open project #{project['id']}",
+                :icon         => {:type => "default", :name => "browser.png"}
+              })
+
+              @feedback.add_item({
+                :uid          => "#{Alfred.bundle_id} list",
+                :title        => "Find tasks in #{project['name']}",
+                :subtitle     => "project #{term}",
+                :arg          => "project #{project['id']}",
+                :valid        => "no",
+                :autocomplete => "list project #{project['id']}",
+                :icon         => {:type => "default", :name => "list.png"}
+              })
+            end
+          end
+        end
+
+        def async_get endpoint, &blk
+          pid = fork do
+            if cache_expired?(endpoint)
+              system "touch #{lock_file(endpoint)}"
+              req = Request.new "/#{endpoint}"
+              data = req.get
+              cache data['data'], endpoint.gsub('/', '-') if data['data']
+              system "rm #{lock_file(endpoint)}"
+            end
+          end
+
+          Process.detach pid
+
+          # Wait for the cache to arrive...
+          # while File.exists?(lock_file(endpoint))
+          #   sleep 1
+          # end
+
+          yield blk
         end
 
         def cache data, type
@@ -201,9 +206,10 @@ module Asana
         end
 
         def search type, conditions={}
-          data = cached(type).to_set
+          return [] unless data = cached(type)
+          data = data.to_set
 
-          return [] unless data
+          return data unless data.any?
 
           # First match all those that contain the term
           contains = data.select do |item|
@@ -243,12 +249,26 @@ module Asana
         end
 
         def cached type
-          JSON.parse File.read(cache_file(type)) if File.exists? cache_file(type)
+          @cached ||= {}
+          @cached[type] ||= JSON.parse File.read(cache_file(type)) if File.exists? cache_file(type)
         end
 
         def cache_file type
-          "./cache/#{type}.json"
+          type = type.to_s
+          "./cache/#{type.gsub('/', '-')}.json"
         end
+
+        def lock_file type
+          "#{cache_file(type)}.lock"
+        end
+
+        def cache_expired? endpoint
+          return true unless File.exists? cache_file(endpoint)
+          return false if File.exists? lock_file(endpoint)
+          return false if File.mtime(cache_file(endpoint)).to_i < Time.now.to_i-30
+          true
+        end
+
       end
     end
   end

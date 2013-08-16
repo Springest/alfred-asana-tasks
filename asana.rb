@@ -4,7 +4,7 @@
 # Suppress net/https warnings about certificate checks
 BEGIN { $VERBOSE = nil }
 
-#$stdout.reopen("log", "w")
+# $stdout.reopen("log", "w")
 # $stderr.reopen("log", "w")
 
 require 'rubygems' unless defined? Gem # rubygems is only needed in 1.8

@@ -12,7 +12,13 @@ module Asana
         def open(*args)
           id = args.pop
           url = "https://app.asana.com/0/#{id}/#{id}"
-          system "open #{url}"
+
+          command = "open #{url}"
+          command = "open -a Asana #{url}" if File.exists? '/Applications/Asana.app'
+
+          system command
+
+          puts "Url opened in Asana!"
         end
 
         def complete(*args)

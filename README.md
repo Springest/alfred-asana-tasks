@@ -1,3 +1,10 @@
+This project is **no longer maintained**.
+
+If you're interested in taking it over, we'd love to hear from you.
+Email [developers@springest.com](mailto:developers@springest.com).
+
+*****
+
 Asana Tasks - Rapid Alfred workflow for Asana
 ===
 
